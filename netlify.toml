@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
-  publish = "dist/your-app-name"
-
+  publish = "dist/todoApp/browser"
+  
 [[redirects]]
   from = "/*"
   to = "/index.html"

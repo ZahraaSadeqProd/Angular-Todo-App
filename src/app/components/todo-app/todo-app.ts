@@ -3,6 +3,26 @@ import { Pipe, PipeTransform, OnInit, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+// Model for a Todo Item
+class TodoItemModel {
+  todoItem : string;
+  createDate : Date;
+  priority: Priority;
+  status : Status;
+  todoItemId: number;
+  isNew?: boolean;
+
+  constructor() {
+    this.todoItem = '';
+    this.createDate = new Date();
+    this.priority = Priority.none;
+    this.status = Status.none;
+    this.todoItemId = 0;
+    this.isNew = false;
+  }
+}
+
+// Enums for Priority and Status
 export enum Priority {
   none,
   LowPriority = 1,
@@ -17,6 +37,7 @@ export enum Status {
   Completed 
 }
 
+// Pipes for displaying Priority and Status labels
 @Pipe({ name: 'priorityLabel' })
 export class PriorityLabelPipe implements PipeTransform {
   transform(value: Priority): string {
@@ -43,6 +64,7 @@ export class StatusLabelPipe implements PipeTransform {
   }
 }
 
+// Main TodoApp Component
 @Component({
   selector: 'app-todo-app',
   imports: [FormsModule, NgClass, CommonModule, PriorityLabelPipe, StatusLabelPipe],
@@ -50,17 +72,25 @@ export class StatusLabelPipe implements PipeTransform {
   styleUrl: './todo-app.css',
 })
 export class TodoApp implements OnInit{
-  Status = Status;
+  // Expose enum to template
+  Status = Status; 
+  Priority = Priority; 
+
+  // Variables for new task entry and localStorage key
   newTask: TodoItemModel = new TodoItemModel();
   localKeyName: string = 'todoItems';
-  editingTaskId: number | null = null;
-  editingTaskCopy: TodoItemModel | null = null;
   searchTerm: string = '';
   sortOption: string = 'date';
 
+  // Variables for editing tasks
+  editingTaskId: number | null = null;
+  editingTaskCopy: TodoItemModel | null = null;
+  
+  // Signals for reactive state management
   todoList = signal<TodoItemModel[]>([]);
   filteredList = signal<TodoItemModel[]>([]);
   
+  // Lifecycle hook to load data from localStorage on initialization
   ngOnInit() {
     const localData = localStorage.getItem(this.localKeyName);
     if (localData) {
@@ -251,24 +281,3 @@ export class TodoApp implements OnInit{
     return this.todoList().filter(item => item.status === Status.InProgress).length;
   }
 }
-
-
-
-class TodoItemModel {
-  todoItem : string;
-  createDate : Date;
-  priority: Priority;
-  status : Status;
-  todoItemId: number;
-  isNew?: boolean;
-
-  constructor() {
-    this.todoItem = '';
-    this.createDate = new Date();
-    this.priority = Priority.none;
-    this.status = Status.none;
-    this.todoItemId = 0;
-    this.isNew = false;
-  }
-}
-

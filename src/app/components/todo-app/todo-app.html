@@ -87,7 +87,11 @@
       </div>
     </div>
     <div class="mt-3">
-      <button (click)="onSaveNewTask()" class="btn btn-add w-100" [disabled]="!newTask.todoItem?.trim()">
+      <button
+        (click)="onSaveNewTask()"
+        class="btn btn-add w-100"
+        [disabled]="!newTask.todoItem?.trim()"
+      >
         <i class="fas fa-plus"></i> Add Task
       </button>
     </div>
@@ -97,7 +101,12 @@
   <div class="search-sort-container">
     <div class="search-box">
       <i class="fas fa-search"></i>
-      <input type="text" placeholder="Search tasks..." [(ngModel)]="searchTerm" (input)="onSearchChange()" />
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      />
     </div>
     <div class="sort-dropdown">
       <select [(ngModel)]="sortOption" (change)="onSortChange($event)" class="form-select">
@@ -113,91 +122,99 @@
   <!-- Todo List -->
   <div class="todo-list">
     @for (item of filteredList(); track $index) {
-      <!-- View Mode -->
-      @if (editingTaskId !== item.todoItemId) {
-        <div class="todo-item" [ngClass]="{'completed': item.status === Status.Completed, 'new-task': item.isNew}">
-          <div (click)="onCheckTask(item.todoItemId)" class="todo-checkbox" [ngClass]="{'checked': item.status === Status.Completed}">
-            @if (item.status === Status.Completed) {
-              <i class="fas fa-check"></i>
-            }
-          </div>
-          <div class="todo-content">
-            <div class="todo-title">{{ item.todoItem }}</div>
-            <div class="todo-meta">
-              <span><i class="far fa-calendar"></i> {{ item.createDate | date }}</span>
-              <span><i class="fas fa-flag"></i>{{ item.priority | priorityLabel }}</span>
-            </div>
-          </div>
-          <span class="status-badge {{item.status | statusLabel}}"> <i class="fas fa-circle"></i> {{ item.status | statusLabel }} </span>
-          <div class="todo-actions">
-            <button (click)="onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button (click)="onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
+    <!-- View Mode -->
+    @if (editingTaskId !== item.todoItemId) {
+    <div
+      class="todo-item"
+      [ngClass]="{ completed: item.status === Status.Completed, 'new-task': item.isNew }"
+    >
+      <div
+        (click)="onCheckTask(item.todoItemId)"
+        class="todo-checkbox"
+        [ngClass]="{ checked: item.status === Status.Completed }"
+      >
+        @if (item.status === Status.Completed) {
+        <i class="fas fa-check"></i>
+        }
+      </div>
+      <div class="todo-content">
+        <div class="todo-title">{{ item.todoItem }}</div>
+        <div class="todo-meta">
+          <span><i class="far fa-calendar"></i> {{ item.createDate | date }}</span>
+          <span><i class="fas fa-flag"></i>{{ item.priority | priorityLabel }}</span>
         </div>
-      }
-      
-      <!-- Edit Mode -->
-      @if (editingTaskId === item.todoItemId && editingTaskCopy) {
-        <div class="todo-item edit-mode">
-          <div class="todo-content">
-            <div class="edit-form">
-              <div class="edit-field">
-                <label>Task Title</label>
-                <input 
-                  type="text" 
-                  [(ngModel)]="editingTaskCopy.todoItem"
-                  class="form-control"
-                  placeholder="Enter task title..."
-                  required
-                />
-              </div>
-              
-              <div class="edit-row">
-                <div class="edit-field">
-                  <label>Priority</label>
-                  <select [(ngModel)]="editingTaskCopy.priority" class="form-select">
-                    <option [ngValue]="0">Select Priority</option>
-                    <option [ngValue]="3">High Priority</option>
-                    <option [ngValue]="2">Medium Priority</option>
-                    <option [ngValue]="1">Low Priority</option>
-                  </select>
-                </div>
-                
-                <div class="edit-field">
-                  <label>Status</label>
-                  <select [(ngModel)]="editingTaskCopy.status" class="form-select">
-                    <option [ngValue]="1">Pending</option>
-                    <option [ngValue]="2">In Progress</option>
-                    <option [ngValue]="3">Completed</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="edit-field">
-                <label>Date</label>
-                <input 
-                  type="date" 
-                  [(ngModel)]="editingTaskCopy.createDate"
-                  class="form-control"
-                />
-              </div>
-              
-              <div class="edit-actions">
-                <button (click)="onSaveEdit()" class="btn btn-success" [disabled]="!editingTaskCopy?.todoItem?.trim()">
-                  <i class="fas fa-save"></i> Save
-                </button>
-                <button (click)="onCancelEdit()" class="btn btn-secondary">
-                  <i class="fas fa-times"></i> Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
+      </div>
+      <span class="status-badge {{ item.status | statusLabel }}">
+        <i class="fas fa-circle"></i> {{ item.status | statusLabel }}
+      </span>
+      <div class="todo-actions">
+        <button (click)="onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button (click)="onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
     }
+
+    <!-- Edit Mode -->
+    @if (editingTaskId === item.todoItemId && editingTaskCopy) {
+    <div class="todo-item edit-mode">
+      <div class="todo-content">
+        <div class="edit-form">
+          <div class="edit-field">
+            <label>Task Title</label>
+            <input
+              type="text"
+              [(ngModel)]="editingTaskCopy.todoItem"
+              class="form-control"
+              placeholder="Enter task title..."
+              required
+            />
+          </div>
+
+          <div class="edit-row">
+            <div class="edit-field">
+              <label>Priority</label>
+              <select [(ngModel)]="editingTaskCopy.priority" class="form-select">
+                <option [ngValue]="0">Select Priority</option>
+                <option [ngValue]="3">High Priority</option>
+                <option [ngValue]="2">Medium Priority</option>
+                <option [ngValue]="1">Low Priority</option>
+              </select>
+            </div>
+
+            <div class="edit-field">
+              <label>Status</label>
+              <select [(ngModel)]="editingTaskCopy.status" class="form-select">
+                <option [ngValue]="1">Pending</option>
+                <option [ngValue]="2">In Progress</option>
+                <option [ngValue]="3">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="edit-field">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="editingTaskCopy.createDate" class="form-control" />
+          </div>
+
+          <div class="edit-actions">
+            <button
+              (click)="onSaveEdit()"
+              class="btn btn-success"
+              [disabled]="!editingTaskCopy?.todoItem?.trim()"
+            >
+              <i class="fas fa-save"></i> Save
+            </button>
+            <button (click)="onCancelEdit()" class="btn btn-secondary">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    } }
   </div>
 </div>

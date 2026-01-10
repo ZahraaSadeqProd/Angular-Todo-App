@@ -126,14 +126,14 @@
     @if (editingTaskId !== item.todoItemId) {
     <div
       class="todo-item"
-      [ngClass]="{ completed: item.status === Status.Completed, 'new-task': item.isNew }"
+      [ngClass]="{ completed: item.status === Status.completed, 'new-task': item.isNew }"
     >
       <div
         (click)="onCheckTask(item.todoItemId)"
         class="todo-checkbox"
-        [ngClass]="{ checked: item.status === Status.Completed }"
+        [ngClass]="{ checked: item.status === Status.completed }"
       >
-        @if (item.status === Status.Completed) {
+        @if (item.status === Status.completed) {
         <i class="fas fa-check"></i>
         }
       </div>
@@ -144,7 +144,7 @@
           <span><i class="fas fa-flag"></i>{{ item.priority | priorityLabel }}</span>
         </div>
       </div>
-      <span class="status-badge {{ item.status | statusLabel }}">
+      <span class="status-badge" [attr.data-status]="item.status">
         <i class="fas fa-circle"></i> {{ item.status | statusLabel }}
       </span>
       <div class="todo-actions">

@@ -9,8 +9,23 @@
     --card-shadow: 0 10px 30px rgba(6, 182, 212, 0.1);
 }
 
+.status-badge[data-status="1"] {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-badge[data-status="2"] {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-badge[data-status="3"] {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
 body {
-    background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+    background-color: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 2rem 0;
@@ -55,7 +70,7 @@ body {
 .app-header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-color: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -68,7 +83,7 @@ body {
 }
 
 .main-card {
-    background: white;
+    background-color: white;
     border-radius: 20px;
     padding: 2rem;
     box-shadow: var(--card-shadow);
@@ -101,11 +116,10 @@ body {
 }
 
 .btn-add {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-color: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border: none;
     border-radius: 12px;
     padding: 0.875rem 2rem;
-    color: white;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
@@ -114,7 +128,7 @@ body {
 .btn-add:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    background-color: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
 }
 
 .btn-add:active {
@@ -164,7 +178,7 @@ body {
     padding: 0.75rem 3rem 0.75rem 1rem;
     border: 2px solid #e2e8f0;
     border-radius: 12px;
-    background: white;
+    background-color: white;
     cursor: pointer;
     transition: all 0.3s ease;
     appearance: none;
@@ -192,7 +206,7 @@ body {
 }
 
 .todo-item {
-    background: white;
+    background-color: white;
     border: 2px solid #e2e8f0;
     border-radius: 12px;
     padding: 1.25rem;
@@ -209,13 +223,12 @@ body {
 }
 
 .todo-item.completed {
-    background: #f0fdf4;
     border-color: var(--success-color);
     opacity: 0.8;
 }
 
 .todo-item.in-progress {
-    background: #fffbeb;
+    background-color: #fffbeb;
     border-color: var(--warning-color);
 }
 
@@ -234,11 +247,11 @@ body {
 
 .todo-checkbox:hover {
     border-color: var(--primary-color);
-    background: rgba(6, 182, 212, 0.1);
+    background-color: rgba(6, 182, 212, 0.1);
 }
 
 .todo-checkbox.checked {
-    background: var(--success-color);
+    background-color: var(--success-color);
     border-color: var(--success-color);
 }
 
@@ -269,12 +282,12 @@ body {
 
 @keyframes highlightNew {
     0% {
-        background: linear-gradient(135deg, #86efac 0%, #d9f99d 100%);
+        background-color: linear-gradient(135deg, #86efac 0%, #d9f99d 100%);
         transform: scale(1.02);
         box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
     }
     100% {
-        background: white;
+        background-color: white;
         transform: scale(1);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
@@ -305,17 +318,17 @@ body {
 }
 
 .status-badge.pending {
-    background: #fee2e2;
+    background-color: #fee2e2;
     color: #dc2626;
 }
 
 .status-badge.in-progress {
-    background: #fef3c7;
+    background-color: #fef3c7;
     color: #d97706;
 }
 
 .status-badge.completed {
-    background: #dcfce7;
+    background-color: #dcfce7;
     color: #16a34a;
 }
 
@@ -345,30 +358,30 @@ body {
 }
 
 .btn-edit {
-    background: #dbeafe;
+    background-color: #dbeafe;
     color: #2563eb;
 }
 
 .btn-edit:hover {
-    background: #bfdbfe;
+    background-color: #bfdbfe;
 }
 
 .btn-delete {
-    background: #fee2e2;
+    background-color: #fee2e2;
     color: #dc2626;
 }
 
 .btn-delete:hover {
-    background: #fecaca;
+    background-color: #fecaca;
 }
 
 .btn-status {
-    background: #fef3c7;
+    background-color: #fef3c7;
     color: #d97706;
 }
 
 .btn-status:hover {
-    background: #fde68a;
+    background-color: #fde68a;
 }
 
 .stats-container {
@@ -379,7 +392,7 @@ body {
 }
 
 .stat-card {
-    background: white;
+    background-color: white;
     border-radius: 12px;
     padding: 1.5rem;
     text-align: center;
@@ -405,21 +418,21 @@ body {
 }
 
 .stat-card:nth-child(1) .stat-icon {
-    background: #dbeafe;
+    background-color: #dbeafe;
     color: #2563eb;
 }
 
 .stat-card:nth-child(2) .stat-icon {
-    background: #fee2e2;
+    background-color: #fee2e2;
     color: #dc2626;
 }
 
 .stat-card:nth-child(3) .stat-icon {
-    background: #fef3c7;
+    background-color: #fef3c7;
     color: #d97706;
 }
 .stat-card:nth-child(4) .stat-icon {
-    background: #dcfce7;
+    background-color: #dcfce7;
     color: #16a34a;
 }
 
@@ -493,7 +506,7 @@ body {
 
 /* Edit Mode Styles */
 .todo-item.edit-mode {
-    background: #f8f9ff;
+    background-color: #f8f9ff;
     border-color: var(--primary-color);
     padding: 1.5rem;
 }
@@ -558,21 +571,21 @@ body {
 }
 
 .btn-success {
-    background: var(--success-color);
+    background-color: #10b981;
     color: white;
 }
 
 .btn-success:hover {
-    background: #059669;
+    background-color: #059669;
     transform: translateY(-2px);
 }
 
 .btn-secondary {
-    background: #94a3b8;
+    background-color: #94a3b8;
     color: white;
 }
 
 .btn-secondary:hover {
-    background: #64748b;
+    background-color: #64748b;
     transform: translateY(-2px);
 }

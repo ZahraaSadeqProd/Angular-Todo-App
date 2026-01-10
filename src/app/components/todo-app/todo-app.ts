@@ -1,68 +1,9 @@
 import { NgClass } from '@angular/common';
-import { Pipe, PipeTransform, OnInit, Component, signal } from '@angular/core';
+import { OnInit, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-// Model for a Todo Item
-class TodoItemModel {
-  todoItem : string;
-  createDate : Date;
-  priority: Priority;
-  status : Status;
-  todoItemId: number;
-  isNew?: boolean;
-
-  constructor() {
-    this.todoItem = '';
-    this.createDate = new Date();
-    this.priority = Priority.none;
-    this.status = Status.none;
-    this.todoItemId = 0;
-    this.isNew = false;
-  }
-}
-
-// Enums for Priority and Status
-export enum Priority {
-  none,
-  LowPriority = 1,
-  MediumPriority,
-  HighPriority 
-}
-
-export enum Status {
-  none,
-  Pending = 1,
-  InProgress,
-  Completed 
-}
-
-// Pipes for displaying Priority and Status labels
-@Pipe({ name: 'priorityLabel' })
-export class PriorityLabelPipe implements PipeTransform {
-  transform(value: Priority): string {
-    const labels = {
-      [Priority.none]: 'None',
-      [Priority.LowPriority]: 'Low Priority',
-      [Priority.MediumPriority]: 'Medium Priority',
-      [Priority.HighPriority]: 'High Priority'
-    };
-    return labels[value] || 'Unknown';
-  }
-}
-
-@Pipe({ name: 'statusLabel' })
-export class StatusLabelPipe implements PipeTransform {
-  transform(value: Status): string {
-    const labels = {
-      [Status.none]: 'None',
-      [Status.Pending]: 'Pending',
-      [Status.InProgress]: 'In Progress',
-      [Status.Completed]: 'Completed'
-    };
-    return labels[value] || 'Unknown';
-  }
-}
+import { TodoItemModel, Priority, Status } from '../../models/todo.model';
+import { PriorityLabelPipe, StatusLabelPipe } from '../../pipes/todo.pipes';
 
 // Main TodoApp Component
 @Component({
@@ -127,12 +68,12 @@ export class TodoApp implements OnInit{
 
     // Set default priority if not selected
     if (this.newTask.priority === Priority.none) {
-      this.newTask.priority = Priority.LowPriority;
+      this.newTask.priority = Priority.lowPriority;
     }
 
     // Set default status if not selected
     if (this.newTask.status === Status.none) {
-      this.newTask.status = Status.Pending;
+      this.newTask.status = Status.pending;
     }
     
     // Create a copy of newTask to avoid all items referencing the same object
@@ -164,7 +105,7 @@ export class TodoApp implements OnInit{
     const updatedList = this.todoList().map(item => {
       if (item.todoItemId === taskId) {
         // Toggle between Completed and In Progress
-        const newStatus = item.status === Status.Completed ? Status.InProgress : Status.Completed;
+        const newStatus = item.status === Status.completed ? Status.inProgress : Status.completed;
         return { ...item, status: newStatus };
       }
       return item;
@@ -270,14 +211,14 @@ export class TodoApp implements OnInit{
   }
 
   getPendingTasksCount() : number {
-    return this.todoList().filter(item => item.status === Status.Pending).length;
+    return this.todoList().filter(item => item.status === Status.pending).length;
   }
 
   getCompletedTasksCount() : number {
-    return this.todoList().filter(item => item.status === Status.Completed).length;
+    return this.todoList().filter(item => item.status === Status.completed).length;
   }
 
   getInProgressTasksCount() : number {
-    return this.todoList().filter(item => item.status === Status.InProgress).length;
+    return this.todoList().filter(item => item.status === Status.inProgress).length;
   }
 }

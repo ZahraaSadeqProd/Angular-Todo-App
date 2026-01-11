@@ -11,28 +11,28 @@
       <div class="stat-icon">
         <i class="fas fa-list"></i>
       </div>
-      <div class="stat-number">{{ getTotalTasksCount() }}</div>
+      <div class="stat-number">{{ totalTasks() }}</div>
       <div class="stat-label">Total Tasks</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon">
         <i class="fas fa-circle"></i>
       </div>
-      <div class="stat-number">{{ getPendingTasksCount() }}</div>
+      <div class="stat-number">{{ pendingTasks() }}</div>
       <div class="stat-label">Pending</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon">
         <i class="fas fa-spinner"></i>
       </div>
-      <div class="stat-number">{{ getInProgressTasksCount() }}</div>
+      <div class="stat-number">{{ inProgressTasks() }}</div>
       <div class="stat-label">In Progress</div>
     </div>
     <div class="stat-card">
       <div class="stat-icon">
         <i class="fas fa-check"></i>
       </div>
-      <div class="stat-number">{{ getCompletedTasksCount() }}</div>
+      <div class="stat-number">{{ completedTasks() }}</div>
       <div class="stat-label">Completed</div>
     </div>
   </div>
@@ -105,11 +105,10 @@
         type="text"
         placeholder="Search tasks..."
         [(ngModel)]="searchTerm"
-        (input)="onSearchChange()"
       />
     </div>
     <div class="sort-dropdown">
-      <select [(ngModel)]="sortOption" (change)="onSortChange($event)" class="form-select">
+      <select [(ngModel)]="sortOption"  class="form-select">
         <option value="date">Sort by Date</option>
         <option value="priority">Sort by Priority</option>
         <option value="status">Sort by Status</option>
@@ -121,7 +120,7 @@
 
   <!-- Todo List -->
   <div class="todo-list">
-    @for (item of filteredList(); track $index) {
+  @for (item of filteredList(); track $index) {
     <!-- View Mode -->
     @if (editingTaskId !== item.todoItemId) {
     <div

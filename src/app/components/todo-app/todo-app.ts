@@ -1,11 +1,13 @@
-import { NgClass } from '@angular/common';
-import { OnInit, Component, signal, computed } from '@angular/core';
+import { NgClass, CommonModule } from '@angular/common';
+import { OnInit, Component, signal, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { TodoItemModel, Priority, Status } from '../../models/todo.model';
 import { PriorityLabelPipe, StatusLabelPipe } from '../../pipes/todo.pipes';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { TodoService, Todo } from '../../core/services/todo.service';
+import dayjs from 'dayjs';
 
-// Main TodoApp Component
 @Component({
   selector: 'app-todo-app',
   imports: [FormsModule, NgClass, CommonModule, PriorityLabelPipe, StatusLabelPipe],
@@ -13,36 +15,44 @@ import { PriorityLabelPipe, StatusLabelPipe } from '../../pipes/todo.pipes';
   styleUrl: './todo-app.css',
 })
 export class TodoApp implements OnInit {
-  // Expose enum to template
+  auth = inject(AuthService);
+  private router = inject(Router);
+  todoService = inject(TodoService);
+
+  // Expose enums to template
   Status = Status;
   Priority = Priority;
 
-  // Variables for new task entry and localStorage key
-  newTask: TodoItemModel = new TodoItemModel();
-  localKeyName: string = 'todoItems';
-  searchTerm = signal(''); // writable signal
+  // Signals
+  todoList = this.todoService.todos;
+  searchTerm = signal('');
+  sortOption = signal('date');
 
-  // Variables for editing tasks
-  editingTaskId: number | null = null;
+  // Editing state
+  editingTaskId: string | null = null;
   editingTaskCopy: TodoItemModel | null = null;
+  editingDateString: string = '';
 
-  // Signals for reactive state management
-  todoList = signal<TodoItemModel[]>([]);
-  // Computed signal for filtered list based on search term
-  // because filteredList depends on both todoList and searchTerm
-  // as well as its a read-only value that we dont want to set directly
+  // New task
+  newTask: TodoItemModel = new TodoItemModel();
+  newTaskDateString: string = '';
+
+  // Computed filtered and sorted list
   filteredList = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
     const list = this.sortedList();
-
-    // If no search term, return full list
-    if (!term) return list;
-
-    // Filter based on search term
-    return list.filter((item) => item.todoItem.toLowerCase().includes(term));
+    return term ? list.filter((item) => item.todoItem.toLowerCase().includes(term)) : list;
   });
 
-  // Computed signals for task statistics
+  sortedList = computed(() => {
+    const list = [...this.todoList()];
+    if (this.sortOption() === 'priority') return list.sort((a, b) => b.priority - a.priority);
+    if (this.sortOption() === 'status') return list.sort((a, b) => b.status - a.status);
+    if (this.sortOption() === 'name')
+      return list.sort((a, b) => a.todoItem.localeCompare(b.todoItem));
+    return list.sort((a, b) => dayjs(b.createDate).valueOf() - dayjs(a.createDate).valueOf());
+  });
+
   totalTasks = computed(() => this.todoList().length);
   pendingTasks = computed(() => this.todoList().filter((t) => t.status === Status.pending).length);
   inProgressTasks = computed(
@@ -52,121 +62,81 @@ export class TodoApp implements OnInit {
     () => this.todoList().filter((t) => t.status === Status.completed).length
   );
 
-  // Signal and computed for sorting
-  sortOption = signal('date');
-  sortedList = computed(() => {
-    const list = [...this.todoList()];
-    if (this.sortOption() === 'priority') return list.sort((a, b) => b.priority - a.priority);
-    if (this.sortOption() === 'status') return list.sort((a, b) => b.status - a.status);
-    if (this.sortOption() === 'name')
-      return list.sort((a, b) => a.todoItem.localeCompare(b.todoItem));
-    return list.sort((a, b) => b.createDate.getTime() - a.createDate.getTime());
-  });
-
-  // Lifecycle hook to load data from localStorage on initialization
   ngOnInit() {
-    const localData = localStorage.getItem(this.localKeyName);
-    if (localData) {
-      const parsed = JSON.parse(localData);
-      // Convert date strings back to Date objects and reset isNew flag
-      const tasks = parsed.map((task: any) => ({
-        ...task,
-        createDate: new Date(task.createDate),
-        isNew: false, // Reset animation flag on load
-      }));
-      this.todoList.set(tasks);
-    }
+    // Load todos from backend (already mapped inside loadTodos)
+    this.todoService.loadTodos();
 
-    const sortOptionLocalData = localStorage.getItem('sortOption');
-    if (sortOptionLocalData) {
-      this.sortOption.set(JSON.parse(sortOptionLocalData));
-    }
+    // Optionally restore sort option from localStorage
+    const sortOptionLocal = localStorage.getItem('sortOption');
+    if (sortOptionLocal) this.sortOption.set(JSON.parse(sortOptionLocal));
   }
 
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+
+  // Create new todo
   onSaveNewTask() {
-    this.generateNewId();
-
-    // Require a non-empty title
     const trimmedTitle = (this.newTask.todoItem || '').trim();
-    if (!trimmedTitle) {
-      return; // Early exit if no title provided
-    }
-    this.newTask.todoItem = trimmedTitle;
+    if (!trimmedTitle) return;
 
-    // Set default priority if not selected
-    if (this.newTask.priority === Priority.none) {
-      this.newTask.priority = Priority.lowPriority;
-    }
+    const todo: Partial<Todo> = {
+      todoItem: trimmedTitle,
+      priority: this.newTask.priority || Priority.lowPriority,
+      status: this.newTask.status || Status.pending,
+      createDate: this.newTaskDateString
+        ? dayjs(this.newTaskDateString).toISOString()
+        : dayjs().toISOString(),
+    };
 
-    // Set default status if not selected
-    if (this.newTask.status === Status.none) {
-      this.newTask.status = Status.pending;
-    }
-
-    // Create a copy of newTask to avoid all items referencing the same object
-    const taskToAdd = { ...this.newTask, isNew: true };
-    this.todoList.update((list) => [taskToAdd, ...list]);
-
-    // Persist to localStorage
-    localStorage.setItem(this.localKeyName, JSON.stringify(this.todoList()));
-
-    // Reset newTask for the next entry
-    this.newTask = new TodoItemModel();
-  }
-
-  onCheckTask(taskId: number) {
-    const updatedList = this.todoList().map((item) => {
-      if (item.todoItemId === taskId) {
-        // Toggle between Completed and In Progress
-        const newStatus = item.status === Status.completed ? Status.inProgress : Status.completed;
-        return { ...item, status: newStatus };
-      }
-      return item;
+    this.todoService.createTodo(todo).subscribe(() => {
+      this.newTask = new TodoItemModel();
+      this.newTaskDateString = '';
     });
-
-    this.todoList.set(updatedList);
-    localStorage.setItem(this.localKeyName, JSON.stringify(this.todoList()));
   }
 
-  onEditTask(taskId: number) {
-    // Find the task and create a copy for editing
-    const task = this.todoList().find((item) => item.todoItemId === taskId);
+  onCheckTask(taskId: string) {
+    const task = this.todoList().find((t) => t.todoItemId === taskId);
+    if (!task) return;
+    const newStatus = task.status === Status.completed ? Status.inProgress : Status.completed;
+    this.todoService.updateTodo(taskId, { status: newStatus }).subscribe();
+  }
+
+  onEditTask(taskId: string) {
+    const task = this.todoList().find((t) => t.todoItemId === taskId);
     if (task) {
       this.editingTaskId = taskId;
-      this.editingTaskCopy = { ...task };
+      this.editingTaskCopy = { ...task, createDate: dayjs(task.createDate).toDate() };
+      this.editingDateString = dayjs(task.createDate).format('YYYY-MM-DD');
     }
   }
 
   onSaveEdit() {
-    if (this.editingTaskCopy && this.editingTaskId !== null) {
-      const updatedList = this.todoList().map((item) => {
-        if (item.todoItemId === this.editingTaskId) {
-          return this.editingTaskCopy!;
-        }
-        return item;
-      });
-
-      this.todoList.set(updatedList);
-      localStorage.setItem(this.localKeyName, JSON.stringify(this.todoList()));
+    if (!this.editingTaskCopy || !this.editingTaskId) return;
+    
+    const updates: Partial<Todo> = {
+      todoItem: this.editingTaskCopy.todoItem,
+      priority: this.editingTaskCopy.priority,
+      status: this.editingTaskCopy.status,
+      createDate: this.editingDateString
+        ? dayjs(this.editingDateString).toISOString()
+        : dayjs().toISOString(),
+    };
+    this.todoService.updateTodo(this.editingTaskId, updates).subscribe(() => {
       this.editingTaskId = null;
       this.editingTaskCopy = null;
-    }
+      this.editingDateString = '';
+    });
   }
 
   onCancelEdit() {
     this.editingTaskId = null;
     this.editingTaskCopy = null;
+    this.editingDateString = '';
   }
 
-  onDeleteTask(taskId: number) {
-    const updatedList = this.todoList().filter((item) => item.todoItemId !== taskId);
-    this.todoList.set(updatedList);
-    localStorage.setItem(this.localKeyName, JSON.stringify(this.todoList()));
-  }
-
-  generateNewId() {
-    const newDate = new Date();
-    this.newTask.todoItemId =
-      this.todoList().length + 1 + newDate.getDay() + newDate.getMilliseconds();
+  onDeleteTask(taskId: string) {
+    this.todoService.deleteTodo(taskId).subscribe();
   }
 }

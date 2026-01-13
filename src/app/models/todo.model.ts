@@ -15,11 +15,11 @@ export enum Status {
 
 // Model for a Todo Item
 export class TodoItemModel {
-  todoItem : string;
-  createDate : Date;
+  todoItemId?: string; // _id from backend
+  todoItem: string;
+  createDate: Date;
   priority: Priority;
-  status : Status;
-  todoItemId: number;
+  status: Status;
   isNew?: boolean;
 
   constructor() {
@@ -27,7 +27,6 @@ export class TodoItemModel {
     this.createDate = new Date();
     this.priority = Priority.none;
     this.status = Status.none;
-    this.todoItemId = 0;
     this.isNew = false;
   }
 }

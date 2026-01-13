@@ -1,0 +1,33 @@
+<div class="login">
+  <h2>Login</h2>
+
+  <input
+    type="email"
+    placeholder="Email"
+    [value]="email()"
+    (input)="email.set($any($event.target).value)"
+  />
+
+  <input
+    type="password"
+    placeholder="Password"
+    [value]="password()"
+    (input)="password.set($any($event.target).value)"
+  />
+
+  <button (click)="login()">Login</button>
+
+  <hr />
+
+  <button (click)="loginDemo()">Login as Demo</button>
+
+  <p *ngIf="error()" style="color:red">
+    {{ error() }}
+  </p>
+
+  <!-- New Register Button -->
+  <p class="mt-3">
+    Don't have an account?
+    <button class="btn btn-secondary" (click)="goRegister()">Register</button>
+  </p>
+</div>

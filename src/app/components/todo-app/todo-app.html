@@ -1,4 +1,9 @@
 <div class="app-container">
+  <div class="todo-header">
+    <h2>Your Todos</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+
   <!-- Header -->
   <div class="app-header">
     <h1><i class="fas fa-check-circle"></i> Todo Master</h1>
@@ -80,7 +85,7 @@
       <div class="col-md-4">
         <input
           type="date"
-          [(ngModel)]="newTask.createDate"
+          [(ngModel)]="newTaskDateString"
           class="form-control"
           style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 0.875rem 1rem"
         />
@@ -101,14 +106,10 @@
   <div class="search-sort-container">
     <div class="search-box">
       <i class="fas fa-search"></i>
-      <input
-        type="text"
-        placeholder="Search tasks..."
-        [(ngModel)]="searchTerm"
-      />
+      <input type="text" placeholder="Search tasks..." [(ngModel)]="searchTerm" />
     </div>
     <div class="sort-dropdown">
-      <select [(ngModel)]="sortOption"  class="form-select">
+      <select [(ngModel)]="sortOption" class="form-select">
         <option value="date">Sort by Date</option>
         <option value="priority">Sort by Priority</option>
         <option value="status">Sort by Status</option>
@@ -120,7 +121,7 @@
 
   <!-- Todo List -->
   <div class="todo-list">
-  @for (item of filteredList(); track $index) {
+    @for (item of filteredList(); track $index) {
     <!-- View Mode -->
     @if (editingTaskId !== item.todoItemId) {
     <div
@@ -128,7 +129,7 @@
       [ngClass]="{ completed: item.status === Status.completed, 'new-task': item.isNew }"
     >
       <div
-        (click)="onCheckTask(item.todoItemId)"
+        (click)="item.todoItemId && onCheckTask(item.todoItemId)"
         class="todo-checkbox"
         [ngClass]="{ checked: item.status === Status.completed }"
       >
@@ -147,10 +148,10 @@
         <i class="fas fa-circle"></i> {{ item.status | statusLabel }}
       </span>
       <div class="todo-actions">
-        <button (click)="onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
+        <button (click)="item.todoItemId && onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
           <i class="fas fa-edit"></i>
         </button>
-        <button (click)="onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
+        <button (click)="item.todoItemId && onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
           <i class="fas fa-trash"></i>
         </button>
       </div>
@@ -196,7 +197,7 @@
 
           <div class="edit-field">
             <label>Date</label>
-            <input type="date" [(ngModel)]="editingTaskCopy.createDate" class="form-control" />
+            <input type="date" [(ngModel)]="editingDateString" class="form-control" />
           </div>
 
           <div class="edit-actions">

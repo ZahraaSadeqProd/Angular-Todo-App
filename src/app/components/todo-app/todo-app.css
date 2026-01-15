@@ -10,18 +10,18 @@
 }
 
 .status-badge[data-status="1"] {
-  background-color: #fee2e2;
-  color: #dc2626;
+    background-color: #fee2e2;
+    color: #dc2626;
 }
 
 .status-badge[data-status="2"] {
-  background-color: #fef3c7;
-  color: #d97706;
+    background-color: #fef3c7;
+    color: #d97706;
 }
 
 .status-badge[data-status="3"] {
-  background-color: #dcfce7;
-  color: #16a34a;
+    background-color: #dcfce7;
+    color: #16a34a;
 }
 
 /* Todo header with logout */
@@ -30,6 +30,7 @@
     height: 40px;
     vertical-align: middle;
 }
+
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
@@ -79,6 +80,7 @@ body {
 .app-container {
     max-width: 900px;
     margin: 0 auto;
+    padding-bottom: 2rem;
     animation: fadeIn 0.6s ease-in;
 }
 
@@ -345,6 +347,7 @@ body {
         transform: scale(1.02);
         box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
     }
+
     100% {
         background: white;
         transform: scale(1);
@@ -496,6 +499,7 @@ body {
     background: #fef3c7;
     color: #d97706;
 }
+
 .stat-card:nth-child(4) .stat-icon {
     background: #dcfce7;
     color: #16a34a;
@@ -532,7 +536,9 @@ body {
 
 @media (max-width: 768px) {
     .app-container {
-        padding: 0 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 2rem;
     }
 
     .app-header h1 {
@@ -549,7 +555,7 @@ body {
         gap: 0.75rem;
     }
 
-    .todo-item > .todo-checkbox {
+    .todo-item>.todo-checkbox {
         position: absolute;
         top: 1rem;
         left: 1rem;
@@ -607,7 +613,9 @@ body {
 
 @media (max-width: 576px) {
     .app-container {
-        padding: 0 0.75rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        padding-bottom: 2rem;
     }
 
     .todo-header {
@@ -681,7 +689,7 @@ body {
         gap: 0.5rem;
     }
 
-    .todo-item > .todo-checkbox {
+    .todo-item>.todo-checkbox {
         top: 1rem;
         left: 0.875rem;
     }
@@ -715,7 +723,9 @@ body {
 
 @media (max-width: 400px) {
     .app-container {
-        padding: 0 0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: 2rem;
     }
 
     .stats-container {

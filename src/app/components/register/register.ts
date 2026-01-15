@@ -22,7 +22,7 @@ export class Register {
   confirmPassword = signal('');
   errorMsg = signal('');
 
-  private readonly API = 'http://localhost:5000/auth/register';
+  private readonly API = 'https://to-do-app-backend-giun.onrender.com/auth/register';
 
   register() {
     this.errorMsg.set('');

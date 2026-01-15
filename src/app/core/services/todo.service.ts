@@ -29,7 +29,7 @@ export interface Todo {
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
-  private readonly API = 'http://localhost:5000/todos';
+  private readonly API = 'https://to-do-app-backend-giun.onrender.com/todos';
 
   todos = signal<Todo[]>([]);
 

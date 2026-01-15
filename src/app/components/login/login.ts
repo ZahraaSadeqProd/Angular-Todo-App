@@ -35,11 +35,11 @@ export class Login {
   }
 
   loginDemo() {
-    this.auth.login('demo@todoapp.com', 'demo1234').subscribe({
+    this.auth.demoLogin().subscribe({
       next: (res) => {
         console.log('DEMO LOGIN SUCCESS', res);
         this.auth.setSession(res);
-        this.router.navigate(['/todos']); // <-- redirect here
+        this.router.navigate(['/todos']);
       },
       error: (err) => {
         console.error(err);

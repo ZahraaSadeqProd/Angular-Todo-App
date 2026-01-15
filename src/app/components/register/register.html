@@ -20,7 +20,7 @@
     <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" required />
   </div>
 
-  <button type="submit" class="btn btn-primary w-100 mt-2">
+  <button type="submit" (click)="register()" class="btn btn-primary w-100 mt-2">
     <i class="fas fa-user-plus me-2"></i>Create Account
   </button>
 </form>

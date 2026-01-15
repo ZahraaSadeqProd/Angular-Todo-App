@@ -13,7 +13,7 @@ interface LoginResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API = 'http://localhost:5000';
+  private readonly API = 'https://to-do-app-backend-giun.onrender.com';
 
   // Signals
   token = signal<string | null>(localStorage.getItem('token'));
@@ -30,6 +30,11 @@ export class AuthService {
   // Login
   login(email: string, password: string) {
     return this.http.post<LoginResponse>(`${this.API}/auth/login`, { email, password });
+  }
+
+  // Demo login - creates unique demo user
+  demoLogin() {
+    return this.http.post<LoginResponse>(`${this.API}/auth/demo`, {});
   }
 
   // Registration / session setup

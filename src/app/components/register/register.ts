@@ -21,6 +21,7 @@ export class Register {
   password = signal('');
   confirmPassword = signal('');
   errorMsg = signal('');
+  isLoading = signal(false);
 
   private readonly API = 'https://to-do-app-backend-giun.onrender.com/auth/register';
 
@@ -38,6 +39,9 @@ export class Register {
       return;
     }
 
+    // Set loading state
+    this.isLoading.set(true);
+
     // Call backend
     this.http
       .post<{ user: any; token: string }>(this.API, {
@@ -53,7 +57,17 @@ export class Register {
           this.router.navigate(['/todos']);
         },
         error: (err) => {
-          this.errorMsg.set(err.error?.message || 'Registration failed.');
+          this.isLoading.set(false);
+          // Handle different error scenarios
+          if (err.status === 400) {
+            this.errorMsg.set(err.error?.message || 'Invalid email or password.');
+          } else if (err.status === 409) {
+            this.errorMsg.set(err.error?.message || 'Email already registered.');
+          } else if (err.status === 500) {
+            this.errorMsg.set('Server error. Please try again later.');
+          } else {
+            this.errorMsg.set(err.error?.message || 'Registration failed. Please try again.');
+          }
         },
       });
   }

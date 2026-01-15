@@ -1,26 +1,40 @@
 <form>
+  <!-- Error Message Alert -->
+  @if (errorMsg()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      <strong>Error:</strong> {{ errorMsg() }}
+      <button type="button" class="btn-close" (click)="errorMsg.set('')"></button>
+    </div>
+  }
+
   <div class="input-group">
     <span class="input-group-text">
       <i class="fas fa-envelope"></i>
     </span>
-    <input type="email" [(ngModel)]="email" name="email" class="form-control" placeholder="Email address" required />
+    <input type="email" [(ngModel)]="email" name="email" class="form-control" placeholder="Email address" required [disabled]="isLoading()" />
   </div>
 
   <div class="input-group">
     <span class="input-group-text">
       <i class="fas fa-lock"></i>
     </span>
-    <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required />
+    <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required [disabled]="isLoading()" />
   </div>
 
   <div class="input-group">
     <span class="input-group-text">
       <i class="fas fa-lock"></i>
     </span>
-    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" required />
+    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" required [disabled]="isLoading()" />
   </div>
 
-  <button type="submit" (click)="register()" class="btn btn-primary w-100 mt-2">
-    <i class="fas fa-user-plus me-2"></i>Create Account
+  <button type="submit" (click)="register()" class="btn btn-primary w-100 mt-2" [disabled]="isLoading()">
+    @if (isLoading()) {
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Registering...
+    } @else {
+      <i class="fas fa-user-plus me-2"></i>Create Account
+    }
   </button>
 </form>

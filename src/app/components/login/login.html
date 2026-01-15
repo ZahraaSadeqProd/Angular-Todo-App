@@ -1,5 +1,14 @@
 <!-- Login Tab -->
 <form>
+  <!-- Error Message Alert -->
+  @if (error()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-circle me-2"></i>
+      <strong>Error:</strong> {{ error() }}
+      <button type="button" class="btn-close" (click)="error.set('')"></button>
+    </div>
+  }
+
   <div class="input-group">
     <span class="input-group-text">
       <i class="fas fa-envelope"></i>
@@ -10,6 +19,7 @@
       placeholder="Email address"
       [value]="email()"
       (input)="email.set($any($event.target).value)"
+      [disabled]="isLoading()"
       required
     />
   </div>
@@ -24,12 +34,18 @@
       placeholder="Password"
       [value]="password()"
       (input)="password.set($any($event.target).value)"
+      [disabled]="isLoading()"
       required
     />
   </div>
 
-  <button type="submit" (click)="login()" class="btn btn-primary w-100">
-    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+  <button type="submit" (click)="login()" class="btn btn-primary w-100" [disabled]="isLoading()">
+    @if (isLoading()) {
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Signing In...
+    } @else {
+      <i class="fas fa-sign-in-alt me-2"></i>Sign In
+    }
   </button>
 </form>
 
@@ -37,13 +53,15 @@
   <span>OR</span>
 </div>
 
-<button (click)="loginDemo()" type="button" class="btn btn-demo w-100">
-  <i class="fas fa-rocket me-2"></i>Try Demo Account
-  <span class="demo-badge">
-    <i class="fas fa-star"></i>
-    Quick Start
-  </span>
+<button (click)="loginDemo()" type="button" class="btn btn-demo w-100" [disabled]="isLoading()">
+  @if (isLoading()) {
+    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    Loading Demo...
+  } @else {
+    <i class="fas fa-rocket me-2"></i>Try Demo Account
+    <span class="demo-badge">
+      <i class="fas fa-star"></i>
+      Quick Start
+    </span>
+  }
 </button>
-<p *ngIf="error()" class="error-message">
-  {{ error() }}
-</p>

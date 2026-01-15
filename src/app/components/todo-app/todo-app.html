@@ -1,8 +1,12 @@
 <div class="app-container">
   <div class="todo-header">
-    <h2>Your Todos</h2>
+    <!-- <h2>Your Todos</h2> -->
+     <div>
+      <img class="logo" src="/logo.svg" alt="">
+      <span class="logo-text">Todo Master</span>
+     </div>
     <button (click)="logout()">Logout</button>
-  </div>
+    </div>
 
   <!-- Header -->
   <div class="app-header">
@@ -60,7 +64,7 @@
         <select
           class="form-select"
           [(ngModel)]="newTask.priority"
-          style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
         >
           <option [ngValue]="0" selected>Select Priority</option>
           <option [ngValue]="3">High Priority</option>
@@ -73,7 +77,7 @@
         <select
           class="form-select"
           [(ngModel)]="newTask.status"
-          style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
         >
           <option [ngValue]="0" selected>Select Status</option>
           <option [ngValue]="1">Pending</option>
@@ -87,7 +91,7 @@
           type="date"
           [(ngModel)]="newTaskDateString"
           class="form-control"
-          style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
         />
       </div>
     </div>

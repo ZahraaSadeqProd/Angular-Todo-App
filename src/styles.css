@@ -1,1 +1,128 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #7c3aed;
+    --secondary-color: #a855f7;
+    --accent-color: #f472b6;
+    --dark-bg: #0f172a;
+    --light-bg: rgba(255, 255, 255, 0.95);
+    --surface-color: rgba(255, 255, 255, 0.92);
+    --text-dark: #0f172a;
+    --text-light: #e0e7ff;
+    --muted-text: #475569;
+    --muted-border: #cbd5e1;
+    --card-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
+}
+
+/* Angular component host styles */
+app-root {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+}
+
+app-auth-shell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+app-login,
+app-register {
+    display: block;
+}
+
+app-todo-app {
+    display: block;
+    width: 100%;
+}
+
+/* Ensure login-container animation works within Angular component */
+app-auth-shell .login-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top, #c084fc 0%, #7c3aed 40%, #312e81 75%, #0f172a 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: var(--text-light);
+}
+
+/* Shared form styles */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group-text {
+    background: var(--light-bg);
+    border: 2px solid var(--muted-border);
+    border-right: none;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+.form-control {
+    border: 2px solid var(--muted-border);
+    border-left: none;
+    padding: 12px 15px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: var(--text-dark);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: none;
+}
+
+.form-control:focus+.input-group-text,
+.input-group:focus-within .input-group-text {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.35);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    transition: left 0.5s ease;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.4);
+}

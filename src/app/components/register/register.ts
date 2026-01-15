@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -7,9 +7,10 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register.html',
+  styleUrl: './register.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class Register {
   private auth = inject(AuthService);

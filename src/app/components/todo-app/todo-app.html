@@ -60,11 +60,11 @@
       />
     </div>
     <div class="row g-3">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <select
           class="form-select"
           [(ngModel)]="newTask.priority"
-          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem; font-size: 16px;"
         >
           <option [ngValue]="0" selected>Select Priority</option>
           <option [ngValue]="3">High Priority</option>
@@ -73,11 +73,11 @@
         </select>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-md-4">
         <select
           class="form-select"
           [(ngModel)]="newTask.status"
-          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem; font-size: 16px;"
         >
           <option [ngValue]="0" selected>Select Status</option>
           <option [ngValue]="1">Pending</option>
@@ -86,12 +86,12 @@
         </select>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-12 col-md-4">
         <input
           type="date"
           [(ngModel)]="newTaskDateString"
           class="form-control"
-          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem"
+          style="border: 2px solid #cbd5e1; border-radius: 12px; padding: 0.875rem 1rem; font-size: 16px;"
         />
       </div>
     </div>
@@ -148,16 +148,18 @@
           <span><i class="fas fa-flag"></i>{{ item.priority | priorityLabel }}</span>
         </div>
       </div>
-      <span class="status-badge" [attr.data-status]="item.status">
-        <i class="fas fa-circle"></i> {{ item.status | statusLabel }}
-      </span>
-      <div class="todo-actions">
-        <button (click)="item.todoItemId && onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button (click)="item.todoItemId && onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
-          <i class="fas fa-trash"></i>
-        </button>
+      <div class="todo-item-footer">
+        <span class="status-badge" [attr.data-status]="item.status">
+          <i class="fas fa-circle"></i> {{ item.status | statusLabel }}
+        </span>
+        <div class="todo-actions">
+          <button (click)="item.todoItemId && onEditTask(item.todoItemId)" class="btn-icon btn-edit" title="Edit">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="item.todoItemId && onDeleteTask(item.todoItemId)" class="btn-icon btn-delete" title="Delete">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
     </div>
     }

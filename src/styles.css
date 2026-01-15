@@ -44,6 +44,17 @@ app-auth-shell .login-container {
     margin: 0 auto;
 }
 
+@media (max-width: 480px) {
+    app-auth-shell .login-container {
+        max-width: 100%;
+    }
+
+    app-auth-shell .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -125,4 +136,41 @@ body {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 20px 40px rgba(124, 58, 237, 0.4);
+}
+
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+    .btn-primary,
+    .btn-demo,
+    button {
+        min-height: 48px;
+        font-size: 15px;
+    }
+
+    .form-control {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 14px 12px;
+    }
+
+    .input-group {
+        margin-bottom: 16px;
+    }
+
+    .input-group-text {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        background: linear-gradient(135deg, #7c3aed 0%, #312e81 100%);
+    }
+
+    app-auth-shell {
+        padding: 0;
+        align-items: stretch;
+        min-height: 100vh;
+    }
 }

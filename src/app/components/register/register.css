@@ -47,3 +47,39 @@
     color: var(--secondary-color);
     font-size: 16px;
 }
+
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
+@media (max-width: 480px) {
+    .features {
+        padding: 16px;
+        margin-top: 16px;
+    }
+
+    .feature-item {
+        font-size: 13px;
+        gap: 8px;
+    }
+
+    .feature-item i {
+        font-size: 14px;
+    }
+
+    .form-check-label {
+        font-size: 13px;
+    }
+
+    .forgot-password {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    .features {
+        padding: 12px;
+    }
+
+    .feature-item {
+        font-size: 12px;
+    }
+}

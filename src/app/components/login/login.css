@@ -99,6 +99,53 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
+@media (max-width: 480px) {
+    .divider {
+        margin: 24px 0 20px;
+        font-size: 13px;
+    }
+
+    .btn-demo {
+        padding: 12px;
+        font-size: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .demo-badge {
+        padding: 4px 10px;
+        font-size: 11px;
+        margin-left: 0;
+    }
+
+    .social-login {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .social-btn {
+        padding: 14px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 360px) {
+    .btn-demo {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .demo-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
 .social-btn.google:hover {
     border-color: #ea4335;
     color: #ea4335;

@@ -152,3 +152,90 @@
         padding: 30px 20px 20px;
     }
 }
+
+/* ===== ENHANCED MOBILE STYLES ===== */
+
+@media (max-width: 480px) {
+    :host {
+        padding: 0;
+        background: transparent;
+    }
+
+    .login-container {
+        max-width: 100%;
+        min-height: 100vh;
+    }
+
+    .card {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: white;
+        min-height: 100vh;
+    }
+
+    .card-header {
+        padding: 24px 16px 20px;
+        border-radius: 0;
+        border: none;
+    }
+
+    .card-body {
+        border: none;
+        flex: 1;
+    }
+
+    .card-header h2 {
+        font-size: 22px;
+    }
+
+    .card-header p {
+        font-size: 13px;
+    }
+
+    .logo-icon {
+        width: 56px;
+        height: 56px;
+        margin-bottom: 12px;
+    }
+
+    .logo-icon i {
+        font-size: 28px;
+    }
+
+    .card-body {
+        padding: 24px 16px;
+    }
+
+    .nav-tabs {
+        margin-bottom: 20px;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .nav-tabs .nav-link i {
+        margin-right: 6px;
+    }
+}
+
+@media (max-width: 360px) {
+    :host {
+        padding: 8px;
+    }
+
+    .card-header h2 {
+        font-size: 20px;
+    }
+
+    .card-body {
+        padding: 20px 12px;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}

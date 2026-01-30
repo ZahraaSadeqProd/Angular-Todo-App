@@ -50,7 +50,7 @@ export class AuthService {
    * @returns {Observable<LoginResponse>} Observable containing token and user data
    */
   login(email: string, password: string) {
-    return this.http.post<LoginResponse>(`${this.API}/auth/login`, { email, password });
+    return this.http.post<LoginResponse>(`${this.API}/login`, { email, password });
   }
 
   /**
@@ -59,7 +59,7 @@ export class AuthService {
    * @returns {Observable<LoginResponse>} Observable containing demo token and user data
    */
   demoLogin() {
-    return this.http.post<LoginResponse>(`${this.API}/auth/demo`, {});
+    return this.http.post<LoginResponse>(`${this.API}/demo`, {});
   }
 
   /**

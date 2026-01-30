@@ -37,13 +37,20 @@ export class TodoApp implements OnInit {
   newTask: TodoItemModel = new TodoItemModel();
   newTaskDateString: string = '';
 
-  // Computed filtered and sorted list
+    /**
+   * Filters the todo list based on the search term.
+   * @returns {TodoItemModel[]} The filtered list of todo items.
+   */
   filteredList = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
     const list = this.sortedList();
     return term ? list.filter((item) => item.todoItem.toLowerCase().includes(term)) : list;
   });
 
+  /**
+   * Sorts the todo list based on the selected sort option.
+   * @returns {TodoItemModel[]} The sorted list of todo items.
+   */
   sortedList = computed(() => {
     const list = [...this.todoList()];
     if (this.sortOption() === 'priority') return list.sort((a, b) => b.priority - a.priority);
@@ -53,15 +60,36 @@ export class TodoApp implements OnInit {
     return list.sort((a, b) => dayjs(b.createDate).valueOf() - dayjs(a.createDate).valueOf());
   });
 
+  /**
+   * Computes the total number of tasks in the todo list.
+   * @returns {number} The total number of tasks.
+   */
   totalTasks = computed(() => this.todoList().length);
+  /**
+   * Computes the number of pending tasks in the todo list.
+   * @returns {number} The number of pending tasks.
+   */
   pendingTasks = computed(() => this.todoList().filter((t) => t.status === Status.pending).length);
+  /**
+   * Computes the number of tasks currently in progress.
+   * @returns {number} The number of tasks in progress.
+   */
   inProgressTasks = computed(
     () => this.todoList().filter((t) => t.status === Status.inProgress).length
   );
+  /**
+   * Computes the number of completed tasks in the todo list.
+   * @returns {number} The number of completed tasks.
+   */
   completedTasks = computed(
     () => this.todoList().filter((t) => t.status === Status.completed).length
   );
 
+  /**
+   * Angular lifecycle hook called after component initialization.
+   * - Loads todos from the backend
+   * - Restores sort option from localStorage if available
+   */
   ngOnInit() {
     // Load todos from backend (already mapped inside loadTodos)
     this.todoService.loadTodos();
@@ -71,12 +99,23 @@ export class TodoApp implements OnInit {
     if (sortOptionLocal) this.sortOption.set(JSON.parse(sortOptionLocal));
   }
 
+  /**
+   * Logs out the user and redirects to the home page.
+   * Clears authentication credentials and navigates to root path.
+   */
   logout() {
     this.auth.logout();
     this.router.navigate(['/']);
   }
 
-  // Create new todo
+  /**
+   * Creates a new todo task from the form input.
+   * - Validates and trims the title
+   * - Sets default priority and status if not provided
+   * - Converts date string to ISO format (defaults to current date if not provided)
+   * - Calls the todo service to save the task
+   * - Clears the form after successful creation
+   */
   onSaveNewTask() {
     const trimmedTitle = (this.newTask.todoItem || '').trim();
     if (!trimmedTitle) return;
@@ -96,6 +135,10 @@ export class TodoApp implements OnInit {
     });
   }
 
+  /**
+   * Toggles the status of a todo task between 'completed' and 'in-progress'.
+   * @param {string} taskId - The ID of the task to toggle
+   */
   onCheckTask(taskId: string) {
     const task = this.todoList().find((t) => t.todoItemId === taskId);
     if (!task) return;
@@ -103,6 +146,11 @@ export class TodoApp implements OnInit {
     this.todoService.updateTodo(taskId, { status: newStatus }).subscribe();
   }
 
+  /**
+   * Prepares a task for editing by copying its data.
+   * @param {string} taskId - The ID of the task to edit
+   * Sets the editingTaskId, creates a copy of the task, and formats the date string
+   */
   onEditTask(taskId: string) {
     const task = this.todoList().find((t) => t.todoItemId === taskId);
     if (task) {
@@ -112,6 +160,13 @@ export class TodoApp implements OnInit {
     }
   }
 
+  /**
+   * Saves the edited task with updated values.
+   * - Validates that editing task exists
+   * - Converts date string to ISO format
+   * - Updates the task via the todo service
+   * - Clears the editing state upon successful save
+   */
   onSaveEdit() {
     if (!this.editingTaskCopy || !this.editingTaskId) return;
     
@@ -130,12 +185,19 @@ export class TodoApp implements OnInit {
     });
   }
 
+  /**
+   * Cancels the current edit operation and clears the editing state.
+   */
   onCancelEdit() {
     this.editingTaskId = null;
     this.editingTaskCopy = null;
     this.editingDateString = '';
   }
 
+  /**
+   * Deletes a todo task by its ID.
+   * @param {string} taskId - The ID of the task to delete
+   */
   onDeleteTask(taskId: string) {
     this.todoService.deleteTodo(taskId).subscribe();
   }

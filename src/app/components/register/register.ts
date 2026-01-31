@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * Register Component
@@ -36,7 +37,7 @@ export class Register {
   errorMsg = signal('');
   isLoading = signal(false);
 
-  private readonly API = 'https://to-do-app-backend-giun.onrender.com/auth/register';
+  private readonly API = `${environment.apiUrl}/auth/register`;
 
   /**
    * Registers a new user account.

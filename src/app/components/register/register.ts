@@ -57,6 +57,13 @@ export class Register {
       return;
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email())) {
+      this.errorMsg.set('Please enter a valid email address.');
+      return;
+    }
+
     if (this.password() !== this.confirmPassword()) {
       this.errorMsg.set('Passwords do not match.');
       return;
